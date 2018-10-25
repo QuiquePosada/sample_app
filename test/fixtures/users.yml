@@ -10,3 +10,10 @@
 
 
 #leaving fixtures empty and ready to be deployed later
+
+
+
+michael:
+  name: Michael Example
+  email: michael@example.com
+  password_digest: <%= User.digest('password') %>
