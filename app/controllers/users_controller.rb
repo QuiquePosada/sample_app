@@ -61,6 +61,20 @@ class UsersController < ApplicationController
   end
 
 
+  def following
+    @title = "Following"
+    @user  = User.find(params[:id])
+    @users = @user.following.paginate(page: params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @title = "Followers"
+    @user  = User.find(params[:id])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
+  end
+
 
   private
 
@@ -81,24 +95,26 @@ class UsersController < ApplicationController
     end
 
   # Confirms the correct user.
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_url) unless @user == current_user
-    end
+   # def correct_user
+      #@user = User.find(params[:id])
+     # redirect_to(root_url) unless @user == current_user
+    #end
 
 
-#Hay uno repetido que se va a quitar si da problema en las pruebas
+  # Confirms an admin user.
+  def admin_user
+    #redirect_to(root_url) unless current_user.admin?
+    #redirect_to(root_url) unless current_user.try(:admin?)
+    redirect_to(root_url) unless current_user && current_user.admin?
+  end
+
+
+  #Hay uno repetido que se va a quitar si da problema en las pruebas
   # Confirms the correct user.
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_url) unless current_user?(@user)
     end
-
-  # Confirms an admin user.
-    def admin_user
-      redirect_to(root_url) unless current_user.admin?
-    end
-
 
 
   
